@@ -14,6 +14,13 @@ namespace BitsoDotNet.APIs
         {
         }
 
+        //https://bitso.com/api_info#account-balance
+        public Balance[] GetBalance()
+        {
+            var rawResponse = BitsoClient.SendRequest("balance", "GET");
+            return JsonConvert.DeserializeObject<Balance[]>(rawResponse);
+        }
+
         //https://bitso.com/api_info#open-orders
         public OpenOrder[] GetOpenOrders(OrdersRequest request = null)
         {

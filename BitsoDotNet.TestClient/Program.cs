@@ -14,8 +14,8 @@ namespace BitsoDotNet.TestClient
             try
             {
                 //Get your API and secret keys at https://bitso.com/api_setup
-                var bitsoClient = new Bitso("[API_KEY]", "[SECRET_KEY]", true);
-
+                var bitsoClient = new Bitso("[API_KEY]", "[SECRET_KEY]", false);
+                
                 Console.WriteLine("Get Available Books:");
                 Console.WriteLine("-------------------");
 
@@ -36,7 +36,7 @@ namespace BitsoDotNet.TestClient
 
                 var ticker = bitsoClient.PublicAPI.GetTicker();
 
-                Console.WriteLine($"Book = {ticker.Book}, High = {ticker.PriceHigh}, Low = {ticker.PriceLow}");
+                Console.WriteLine($"Book = {ticker.Book}, Last = {ticker.LastTradedPrice}, High = {ticker.PriceHigh}, Low = {ticker.PriceLow}");
 
                 Console.WriteLine("\r\nGet Trades:");
                 Console.WriteLine("-------------------");
@@ -46,13 +46,22 @@ namespace BitsoDotNet.TestClient
                     Console.WriteLine($"[TRADE] Tid = {trade.Tid}, Book = {trade.Book}, Price = {trade.Price}, Amount = {trade.Amount}");
                 }
 
+                Console.WriteLine("\r\nGetBalance:");
+                Console.WriteLine("-------------");
+
+                //Get the user's balance
+                foreach (var balance in bitsoClient.PrivateAPI.GetBalance())
+                {
+                    Console.WriteLine($"[BALANCE] {balance.Currency}, Total = {balance.Total}, Locked = {balance.Locked}, Available = {balance.Available}");
+                }
+
                 Console.WriteLine("\r\nGetOpenOrders:");
                 Console.WriteLine("-------------");
 
                 //Get a list of open orders
                 foreach (var order in bitsoClient.PrivateAPI.GetOpenOrders())
                 {
-                    Console.WriteLine($"[ORDER] Oid = {order.Oid}, Book = {order.Book}, Status = {order.Status}");
+                    Console.WriteLine($"[ORDER] Oid = {order.Oid}, Book = {order.Book}, Status = {order.Status}, Price = {order.Price}");
                 }
 
                 //Place an order to buy 0.5 bitcoin at a price of 1,000.00 mxn per bitcoin (to spend: 500.00 mxn)

@@ -113,7 +113,12 @@ namespace BitsoDotNet
             if (responseObj == null) throw new BitsoException("No response was returned from Bitso.", "0");
 
             if (responseObj["success"].Value<bool>())
+            {
+                if(method == "GET" && url == "balance") //This was hardcoded to mantain consistency in the response
+                    return responseObj["payload"]["balances"].ToString();
+
                 return responseObj["payload"].ToString();
+            }
 
             throw new BitsoException(responseObj["error"]["message"].ToString(), responseObj["error"]["code"].ToString());
         }

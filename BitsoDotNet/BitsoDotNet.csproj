@@ -51,6 +51,7 @@
     <Compile Include="BitsoUtils.cs" />
     <Compile Include="Entities\AccountRequiredField.cs" />
     <Compile Include="Entities\BitsoException.cs" />
+    <Compile Include="Entities\Balance.cs" />
     <Compile Include="Entities\NewAccountInfo.cs" />
     <Compile Include="Entities\OrdersRequest.cs" />
     <Compile Include="Entities\BookInfo.cs" />
