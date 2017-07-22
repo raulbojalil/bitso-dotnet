@@ -15,11 +15,11 @@ namespace BitsoDotNet.APIs
         }
 
         //https://bitso.com/api_info#open-orders
-        public BitsoOrder[] GetOpenOrders(BitsoOpenOrdersRequest request = null)
+        public UserOrder[] GetOpenOrders(OrdersRequest request = null)
         {
             var rawResponse = BitsoClient.SendRequest("open_orders" + (request != null ? 
                BitsoUtils.BuildQueryString(request) : "?book=btc_mxn"), "GET");
-            return JsonConvert.DeserializeObject<BitsoOrder[]>(rawResponse);
+            return JsonConvert.DeserializeObject<UserOrder[]>(rawResponse);
         }
     }
 }
