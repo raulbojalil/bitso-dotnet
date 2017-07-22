@@ -16,16 +16,16 @@ namespace BitsoDotNet.Entities
         public string Volume { get; set; }
 
         [JsonProperty("high")]
-        public string High { get; set; }
+        public string PriceHigh { get; set; }
 
         [JsonProperty("last")]
-        public string Last { get; set; }
+        public string LastTradedPrice { get; set; }
 
         [JsonProperty("low")]
-        public string Low { get; set; }
+        public string PriceLow { get; set; }
 
         [JsonProperty("vwap")]
-        public string Vwap { get; set; }
+        public string VolumeWeightedAvgPrice { get; set; }
 
         [JsonProperty("ask")]
         public string Ask { get; set; }
@@ -35,5 +35,13 @@ namespace BitsoDotNet.Entities
 
         [JsonProperty("created_at")]
         public string CreatedAt { get; set; }
+
+        public decimal VolumeAsDecimal { get { return Convert.ToDecimal(Volume); } }
+        public decimal PriceHighAsDecimal { get { return Convert.ToDecimal(PriceHigh); } }
+        public decimal LastTradedPriceAsDecimal { get { return Convert.ToDecimal(LastTradedPrice); } }
+        public decimal PriceLowAsDecimal { get { return Convert.ToDecimal(PriceLow); } }
+        public decimal VolumeWeightedAvgPriceAsDecimal { get { return Convert.ToDecimal(VolumeWeightedAvgPrice); } }
+        public decimal AskAsDecimal { get { return Convert.ToDecimal(Ask); } }
+        public decimal BidAsDecimal { get { return Convert.ToDecimal(Bid); } }
     }
 }

@@ -50,13 +50,31 @@ namespace BitsoDotNet
                 var propertyName = jsonPropertyAttribute != null ? jsonPropertyAttribute.PropertyName : p.Name;
                 var propertyValue = p.GetValue(obj);
 
-                if(propertyValue != null)
-                    queryBuilder.AppendFormat("{0}={1}", propertyName, propertyValue);
+                
+                queryBuilder.AppendFormat("{0}={1}", propertyName, propertyValue);
                 index++;
             }
 
             var query = queryBuilder.ToString();
             return !string.IsNullOrEmpty(query) ? ("?" + query) : string.Empty;
+        }
+
+        
+
+        public static string BuildJson(Dictionary<string, string> dict)
+        {
+            if (dict == null) return "null";
+            var builder = new StringBuilder("{");
+            var index = 0;
+            foreach(var field in dict.Keys)
+            {
+                if(index > 0)
+                    builder.Append(",");
+                builder.AppendFormat("\"{0}\":\"{1}\"", field, dict[field]);
+                index++;
+            }
+            builder.Append("}");
+            return builder.ToString();
         }
 
         public static string BuildQueryString(params string[] keyValues)

@@ -19,6 +19,6 @@ namespace BitsoDotNet.Entities
         public string Sort { get; set; }
 
         [JsonProperty("limit")]
-        public string Limit { get; set; }
+        public int Limit { get; set; }
     }
 }

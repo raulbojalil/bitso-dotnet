@@ -26,7 +26,12 @@ namespace BitsoDotNet.Entities
         [JsonProperty("maximum_value")]
         public string MaximumValue { get; set; }
 
-
+        public decimal MinimumAmountAsDecimal { get { return Convert.ToDecimal(MinimumAmount); } }
+        public decimal MaximumAmountAsDecimal { get { return Convert.ToDecimal(MaximumAmount); } }
+        public decimal MinimumPriceAsDecimal { get { return Convert.ToDecimal(MinimumPrice); } }
+        public decimal MaximumPriceAsDecimal { get { return Convert.ToDecimal(MaximumPrice); } }
+        public decimal MinimumValueAsDecimal { get { return Convert.ToDecimal(MinimumValue); } }
+        public decimal MaximumValueAsDecimal { get { return Convert.ToDecimal(MaximumValue); } }
 
     }
 }

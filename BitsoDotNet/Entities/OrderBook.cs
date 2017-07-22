@@ -31,5 +31,8 @@ namespace BitsoDotNet.Entities
 
         [JsonProperty("oid")]
         public string Oid { get; set; }
+
+        public decimal PriceAsDecimal { get { return Convert.ToDecimal(Price); } }
+        public decimal AmountAsDecimal { get { return Convert.ToDecimal(Amount); } }
     }
 }

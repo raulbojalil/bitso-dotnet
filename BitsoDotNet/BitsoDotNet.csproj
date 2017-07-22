@@ -45,15 +45,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIs\BitsoAPI.cs" />
+    <Compile Include="APIs\AccountCreationAPI.cs" />
     <Compile Include="APIs\PublicAPI.cs" />
     <Compile Include="Bitso.cs" />
     <Compile Include="BitsoUtils.cs" />
+    <Compile Include="Entities\AccountRequiredField.cs" />
     <Compile Include="Entities\BitsoException.cs" />
+    <Compile Include="Entities\NewAccountInfo.cs" />
     <Compile Include="Entities\OrdersRequest.cs" />
     <Compile Include="Entities\BookInfo.cs" />
     <Compile Include="Entities\OrderBook.cs" />
+    <Compile Include="Entities\PlaceOrderRequest.cs" />
     <Compile Include="Entities\Trade.cs" />
-    <Compile Include="Entities\UserOrder.cs" />
+    <Compile Include="Entities\OpenOrder.cs" />
     <Compile Include="Entities\Ticker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="APIs\PrivateAPI.cs" />

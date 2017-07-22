@@ -22,6 +22,7 @@ namespace BitsoDotNet
 
         public readonly PrivateAPI PrivateAPI;
         public readonly PublicAPI PublicAPI;
+        public readonly AccountCreationAPI AccountCreationAPI;
 
         public Bitso(string key, string secret, bool production = false)
         {
@@ -31,9 +32,10 @@ namespace BitsoDotNet
             BITSO_VERSION_PREFIX = "/api/v3/";
             PrivateAPI = new PrivateAPI(this);
             PublicAPI = new PublicAPI(this);
+            AccountCreationAPI = new AccountCreationAPI(this);
         }
 
-        public string SendRequest(string url, string method, bool signRequest = true, string body = "")
+        public string SendRequest(string url, string method, bool signRequest = true, string body = null)
         {
             var requestPath = BITSO_VERSION_PREFIX + url;
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(BITSO_API_URL + requestPath);
@@ -80,16 +82,19 @@ namespace BitsoDotNet
             }
             catch (WebException ex)
             {
-                using (var res = ex.Response)
+                using (HttpWebResponse res = (HttpWebResponse)ex.Response)
                 {
                     if (res == null)
-                        throw new BitsoException("Invalid Bitso Response", "0");
+                        throw new BitsoException("No response was returned from Bitso.", "0");
 
                     using (var str = res.GetResponseStream())
                     {
                         using (StreamReader reader = new StreamReader(str))
                         {
                             response = reader.ReadToEnd();
+
+                            if (res.StatusCode == HttpStatusCode.NotFound && response.StartsWith("<"))
+                                throw new BitsoException("The requested resource was not found.", "-1");
 
                         }
                     }
@@ -100,9 +105,12 @@ namespace BitsoDotNet
                 throw new BitsoException(ex.Message, "0");
             }
 
+            if (string.IsNullOrEmpty(response) || response.StartsWith("<"))
+                throw new BitsoException("A malformed response was returned from Bitso.", "-1");
+
             var responseObj = JsonConvert.DeserializeObject<JObject>(response);
 
-            if (responseObj == null) throw new BitsoException("Invalid Bitso Response", "0");
+            if (responseObj == null) throw new BitsoException("No response was returned from Bitso.", "0");
 
             if (responseObj["success"].Value<bool>())
                 return responseObj["payload"].ToString();

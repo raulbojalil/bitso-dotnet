@@ -28,5 +28,8 @@ namespace BitsoDotNet.Entities
         [JsonProperty("tid")]
         public long Tid { get; set; }
 
+        public decimal AmountAsDecimal { get { return Convert.ToDecimal(Amount); } }
+        public decimal PriceAsDecimal { get { return Convert.ToDecimal(Price); } }
+
     }
 }

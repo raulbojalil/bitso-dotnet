@@ -31,7 +31,7 @@ namespace BitsoDotNet.APIs
         //https://bitso.com/api_info#order_book
         public OrderBook GetOrderBook(string book = "btc_mxn", bool aggregate = true)
         {
-            var rawResponse = BitsoClient.SendRequest($"order_book?book={book}&aggregate={aggregate}", "GET", false);
+            var rawResponse = BitsoClient.SendRequest($"order_book?book={book}&aggregate={(aggregate ? "true" : "false")}", "GET", false);
             return JsonConvert.DeserializeObject<OrderBook>(rawResponse);
         }
 
