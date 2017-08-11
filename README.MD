@@ -2,12 +2,12 @@
 
 # Bitso .NET Client API
 
-A .NET Client API for the mexican cryptocurrency exchange Bitso. https://bitso.com
+This is a .NET Client API for the mexican cryptocurrency exchange Bitso. https://bitso.com
 
 ## Supported APIs
 
 * Public API
-* Private REST API
+* Private API
 * Account Creation API
 
 ## Installation
@@ -32,7 +32,7 @@ var accountStatus = bitsoClient.PrivateAPI.GetAccountStatus();
 
 ## Public API
 
-##### Available Books
+#### Available Books
 
 Returns a list of existing exchange order books and their respective order placement limits.
 
@@ -40,7 +40,7 @@ Returns a list of existing exchange order books and their respective order place
 BookInfo[] books = bitsoClient.PublicAPI.GetAvailableBooks();
 ```
 
-##### Ticker
+#### Ticker
 
 Returns trading information from the specified book.
 
@@ -48,7 +48,7 @@ Returns trading information from the specified book.
 Ticker ticker = bitsoClient.PublicAPI.GetTicker("btc_mxn");
 ```
 
-##### Order Book
+#### Order Book
 
 Returns a list of all open orders in the specified book. If the aggregate parameter is set to true, orders will be aggregated by price, and the response will only include the top 50 orders for each side of the book. If the aggregate parameter is set to false, the response will include the full order book.
 
@@ -56,7 +56,7 @@ Returns a list of all open orders in the specified book. If the aggregate parame
 OrderBook orderBook = bitsoClient.PublicAPI.GetOrderBook("btc_mxn", aggregate: true);
 ```
 
-##### Trades
+#### Trades
 
 Returns a list of recent trades from the specified book.
 
@@ -68,7 +68,6 @@ Trade[] trades = bitsoClient.PublicAPI.GetTrades(new OrdersRequest
 	Sort = "asc" //Ordering direction 
 });
 ```
-
 
 ## Private API
 
