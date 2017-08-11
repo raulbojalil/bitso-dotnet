@@ -1,3 +1,5 @@
+![Logo](https://raw.githubusercontent.com/raulbojalil/bitso-dotnet/master/logo.png "Logo")
+
 # Bitso .NET Client API
 
 A .NET Client API for the mexican cryptocurrency exchange Bitso. https://bitso.com
