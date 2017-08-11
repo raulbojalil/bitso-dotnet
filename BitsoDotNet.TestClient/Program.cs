@@ -13,9 +13,12 @@ namespace BitsoDotNet.TestClient
         {
             try
             {
+               
                 //Get your API and secret keys at https://bitso.com/api_setup
                 var bitsoClient = new Bitso("[API_KEY]", "[SECRET_KEY]", false);
-                
+
+                //PUBLIC API
+
                 Console.WriteLine("Get Available Books:");
                 Console.WriteLine("-------------------");
 
@@ -41,16 +44,35 @@ namespace BitsoDotNet.TestClient
                 Console.WriteLine("\r\nGet Trades:");
                 Console.WriteLine("-------------------");
 
-                foreach(var trade in bitsoClient.PublicAPI.GetTrades())
+                foreach (var trade in bitsoClient.PublicAPI.GetTrades())
                 {
                     Console.WriteLine($"[TRADE] Tid = {trade.Tid}, Book = {trade.Book}, Price = {trade.Price}, Amount = {trade.Amount}");
                 }
 
-                Console.WriteLine("\r\nGetBalance:");
+                //PRIVATE API
+
+                Console.WriteLine("\r\nGetAccountStatus:");
+                Console.WriteLine("-------------");
+
+                var accountStatus = bitsoClient.PrivateAPI.GetAccountStatus();
+                
+                Console.WriteLine($"[ACCOUNT STATUS] {accountStatus.Status}, Daily Limit = {accountStatus.DailyLimit}, Daily Remaining = {accountStatus.DailyRemaining}, Monthly Limit = {accountStatus.MonthlyLimit}, Monthly Remaining = {accountStatus.MonthlyRemaining}");
+
+                Console.WriteLine("\r\nGetFees:");
+                Console.WriteLine("-------------");
+
+                var feeInfo = bitsoClient.PrivateAPI.GetFees();
+
+                foreach (var fee in feeInfo.Fees)
+                {
+                    Console.WriteLine($"[FEE] {fee.Book}, Fee Decimal = {fee.FeeDecimal}, Fee Percent = {fee.FeePercent}");
+                }
+
+                Console.WriteLine("\r\nGetAccountBalance:");
                 Console.WriteLine("-------------");
 
                 //Get the user's balance
-                foreach (var balance in bitsoClient.PrivateAPI.GetBalance())
+                foreach (var balance in bitsoClient.PrivateAPI.GetAccountBalance())
                 {
                     Console.WriteLine($"[BALANCE] {balance.Currency}, Total = {balance.Total}, Locked = {balance.Locked}, Available = {balance.Available}");
                 }

@@ -14,11 +14,39 @@ namespace BitsoDotNet.APIs
         {
         }
 
+        //https://bitso.com/api_info#account-status
+        public AccountStatus GetAccountStatus()
+        {
+            var rawResponse = BitsoClient.SendRequest("account_status", "GET");
+            return JsonConvert.DeserializeObject<AccountStatus>(rawResponse);
+        }
+
+        //https://bitso.com/api_info#mobile-phone-number-registration
+        public MobilePhoneNumber RegisterMobilePhoneNumber(string mobilePhoneNumber)
+        {
+            var rawResponse = BitsoClient.SendRequest("phone_number", "POST", true, $"{{ \"phone_number\": \"{mobilePhoneNumber}\" }}");
+            return JsonConvert.DeserializeObject<MobilePhoneNumber>(rawResponse); ;
+        }
+
+        //https://bitso.com/api_info#mobile-phone-number-verification
+        public MobilePhoneNumber VerifyMobilePhoneNumber(string verificationCode)
+        {
+            var rawResponse = BitsoClient.SendRequest("phone_verification", "POST", true, $"{{ \"verification_code\": \"{verificationCode}\" }}");
+            return JsonConvert.DeserializeObject<MobilePhoneNumber>(rawResponse);
+        }
+
         //https://bitso.com/api_info#account-balance
-        public Balance[] GetBalance()
+        public Balance[] GetAccountBalance()
         {
             var rawResponse = BitsoClient.SendRequest("balance", "GET");
             return JsonConvert.DeserializeObject<Balance[]>(rawResponse);
+        }
+
+        //https://bitso.com/api_info?#fees
+        public FeeInfo GetFees()
+        {
+            var rawResponse = BitsoClient.SendRequest("fees", "GET");
+            return JsonConvert.DeserializeObject<FeeInfo>(rawResponse);
         }
 
         //https://bitso.com/api_info#open-orders

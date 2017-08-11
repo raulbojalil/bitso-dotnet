@@ -46,10 +46,13 @@
   <ItemGroup>
     <Compile Include="APIs\BitsoAPI.cs" />
     <Compile Include="APIs\AccountCreationAPI.cs" />
+    <Compile Include="Entities\MobilePhoneNumber.cs" />
     <Compile Include="APIs\PublicAPI.cs" />
     <Compile Include="Bitso.cs" />
     <Compile Include="BitsoUtils.cs" />
     <Compile Include="Entities\AccountRequiredField.cs" />
+    <Compile Include="Entities\AccountStatus.cs" />
+    <Compile Include="Entities\Fee.cs" />
     <Compile Include="Entities\BitsoException.cs" />
     <Compile Include="Entities\Balance.cs" />
     <Compile Include="Entities\NewAccountInfo.cs" />
