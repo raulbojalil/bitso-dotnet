@@ -2,7 +2,7 @@
 
 # Bitso .NET Client API
 
-This is a .NET Client API for the mexican cryptocurrency exchange Bitso. https://bitso.com
+This is a .NET Client API for the mexican cryptocurrency exchange Bitso. https://bitso.com/api_info.
 
 ## Supported APIs
 
@@ -12,7 +12,11 @@ This is a .NET Client API for the mexican cryptocurrency exchange Bitso. https:/
 
 ## Installation
 
-Coming soon as a Nuget Package
+Run the following command in the Package Manager Console:
+```
+Install-Package Bitso.Net
+```
+See the package at [Nuget.org](https://www.nuget.org/packages/Bitso.Net).
 
 ## Usage
 
@@ -61,12 +65,11 @@ OrderBook orderBook = bitsoClient.PublicAPI.GetOrderBook("btc_mxn", aggregate: t
 Returns a list of recent trades from the specified book.
 
 ```C# 
-Trade[] trades = bitsoClient.PublicAPI.GetTrades(new OrdersRequest
-{
-	Book = "btc_mxn",
-	Limit = 10, //Objects to return
-	Sort = "asc" //Ordering direction 
-});
+Trade[] trades = bitsoClient.PublicAPI.GetTrades(
+    book: "btc_mxn", //MXN/BTC Book
+    limit: 10,  //Objects to return
+    sort: "asc" //Ordering direction 
+);
 ```
 
 ## Private API
@@ -80,12 +83,11 @@ Wrap your code around a try-catch block and catch the BitsoException type. The B
 ```C# 
 try
 {
-	var response = bitsoClient.PrivateAPI.XXXXX();
+    var response = bitsoClient.PrivateAPI.XXXXX();
 }
 catch(BitsoException ex)
 {
-	//ex.ErrorCode
-	//ex.Message
+    Console.WriteLine(ex.ErrorCode);
 }
 ```
 
