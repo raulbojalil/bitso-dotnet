@@ -36,9 +36,9 @@ namespace BitsoDotNet.APIs
         }
 
         //https://bitso.com/api_info#trades
-        public Trade[] GetTrades(OrdersRequest request = null)
+        public Trade[] GetTrades(string book = "btc_mxn", string marker = "", string sort = "desc", int limit = 25)
         {
-            var rawResponse = BitsoClient.SendRequest($"trades" + (request != null ? BitsoUtils.BuildQueryString(request) : "?book=btc_mxn"), "GET", false);
+            var rawResponse = BitsoClient.SendRequest("trades" + BitsoUtils.BuildQueryString("book", book, "marker", marker, "sort", sort, "limit", limit.ToString()), "GET", false);
             return JsonConvert.DeserializeObject<Trade[]>(rawResponse);
         }
     }

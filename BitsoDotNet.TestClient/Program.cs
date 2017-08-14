@@ -13,10 +13,11 @@ namespace BitsoDotNet.TestClient
         {
             try
             {
-               
-                //Get your API and secret keys at https://bitso.com/api_setup
-                var bitsoClient = new Bitso("[API_KEY]", "[SECRET_KEY]", false);
 
+                //Get your API and secret keys at https://bitso.com/api_setup
+                //These are not required if calling public API methods only
+                var bitsoClient = new Bitso("[API_KEY]", "[SECRET_KEY]", production: false);
+                
                 //PUBLIC API
 
                 Console.WriteLine("Get Available Books:");
@@ -51,14 +52,14 @@ namespace BitsoDotNet.TestClient
 
                 //PRIVATE API
 
-                Console.WriteLine("\r\nGetAccountStatus:");
+                Console.WriteLine("\r\nGet Account Status:");
                 Console.WriteLine("-------------");
 
                 var accountStatus = bitsoClient.PrivateAPI.GetAccountStatus();
                 
                 Console.WriteLine($"[ACCOUNT STATUS] {accountStatus.Status}, Daily Limit = {accountStatus.DailyLimit}, Daily Remaining = {accountStatus.DailyRemaining}, Monthly Limit = {accountStatus.MonthlyLimit}, Monthly Remaining = {accountStatus.MonthlyRemaining}");
 
-                Console.WriteLine("\r\nGetFees:");
+                Console.WriteLine("\r\nGet Fees:");
                 Console.WriteLine("-------------");
 
                 var feeInfo = bitsoClient.PrivateAPI.GetFees();
@@ -68,19 +69,53 @@ namespace BitsoDotNet.TestClient
                     Console.WriteLine($"[FEE] {fee.Book}, Fee Decimal = {fee.FeeDecimal}, Fee Percent = {fee.FeePercent}");
                 }
 
-                Console.WriteLine("\r\nGetAccountBalance:");
+                Console.WriteLine("\r\nGet Ledger:");
                 Console.WriteLine("-------------");
 
-                //Get the user's balance
+                var operations = bitsoClient.PrivateAPI.GetLedger();
+
+                foreach (var operation in operations)
+                {
+                    Console.WriteLine($"[OPERATION] {operation.Eid}, Type = {operation.OperationType}");
+                }
+
+                Console.WriteLine("\r\nGet Withdrawals:");
+                Console.WriteLine("-------------");
+
+                foreach (var withdrawal in bitsoClient.PrivateAPI.GetWithdrawals())
+                {
+                    Console.WriteLine($"[WITHDRAWAL] {withdrawal.Wid}, Amount = {withdrawal.Amount} {withdrawal.Currency}");
+                }
+
+                Console.WriteLine("\r\nGet Fundings:");
+                Console.WriteLine("-------------");
+
+                var fundings = bitsoClient.PrivateAPI.GetFundings();
+
+                foreach (var funding in fundings)
+                {
+                    Console.WriteLine($"[FUNDING] {funding.Fid}, Amount = {funding.Amount} {funding.Currency}");
+                }
+
+                Console.WriteLine("\r\nGet Account Balance:");
+                Console.WriteLine("-------------");
+
                 foreach (var balance in bitsoClient.PrivateAPI.GetAccountBalance())
                 {
                     Console.WriteLine($"[BALANCE] {balance.Currency}, Total = {balance.Total}, Locked = {balance.Locked}, Available = {balance.Available}");
                 }
 
-                Console.WriteLine("\r\nGetOpenOrders:");
+                Console.WriteLine("\r\nGet User Trades:");
                 Console.WriteLine("-------------");
 
-                //Get a list of open orders
+                foreach (var userTrade in bitsoClient.PrivateAPI.GetUserTrades())
+                {
+                    Console.WriteLine($"[USER TRADE] {userTrade.Tid}, Oid = {userTrade.Oid}, Book = {userTrade.Book}, Side = {userTrade.Side}, Price = {userTrade.Price}");
+                }
+
+                Console.WriteLine("\r\nGet Open Orders:");
+                Console.WriteLine("-------------");
+
                 foreach (var order in bitsoClient.PrivateAPI.GetOpenOrders())
                 {
                     Console.WriteLine($"[ORDER] Oid = {order.Oid}, Book = {order.Book}, Status = {order.Status}, Price = {order.Price}");
@@ -88,11 +123,11 @@ namespace BitsoDotNet.TestClient
 
                 //Place an order to buy 0.5 bitcoin at a price of 1,000.00 mxn per bitcoin (to spend: 500.00 mxn)
                 var newOrder = bitsoClient.PrivateAPI.PlaceOrder(
-                    new PlaceOrderRequest() { Book = "btc_mxn", Type = "limit", Side = "buy", Price = "1000.00", MajorAmount = "0.5" });
+                    book: "btc_mxn", type: "limit", side: "buy", price: 1000.00M, majorAmount: 0.5M );
 
                 //Place an order to sell 0.01 bitcoin at a price of 80,000.00 mxn per bitcoin (to earn: 800.00 mxn)
                 var newOrder2 = bitsoClient.PrivateAPI.PlaceOrder(
-                    new PlaceOrderRequest() { Book = "btc_mxn", Type = "limit", Side = "sell", Price = "80000.00", MajorAmount = "0.01" });
+                    book: "btc_mxn", type: "limit", side: "sell", price: 80000.00M, majorAmount: 0.01M );
 
                 //You can also use CancelAllOpenOrders and CancelOrder
                 foreach (var order in bitsoClient.PrivateAPI.CancelOpenOrders(newOrder.Oid, newOrder2.Oid)) 
@@ -100,8 +135,24 @@ namespace BitsoDotNet.TestClient
                     Console.WriteLine($"[CANCELED ORDER] {order}");
                 }
 
+                Console.WriteLine("\r\nGet Funding Destination:");
+                Console.WriteLine("-------------------");
+
+                var fundingDestination = bitsoClient.PrivateAPI.GetFundingDestination("BTC");
+
+                Console.WriteLine($"[BTC FUNDING DESTINATION] {fundingDestination.AccountIdentifier} ({fundingDestination.AccountIdentifierName})");
+
+                Console.WriteLine("\r\nGet Bank Codes:");
+                Console.WriteLine("-------------");
+
+                var bankCodes = bitsoClient.PrivateAPI.GetMexicanBankCodes();
+
+                foreach (var bankCode in bankCodes)
+                {
+                    Console.WriteLine($"[BANK CODE] {bankCode.Code} {bankCode.Name}");
+                }
             }
-            catch(BitsoException bex)
+            catch (BitsoException bex)
             {
                 Console.WriteLine($"[ERROR] Code {bex.ErrorCode}. {bex.Message}");
             }

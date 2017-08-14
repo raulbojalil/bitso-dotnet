@@ -88,9 +88,10 @@ namespace BitsoDotNet
                 if (index > 0 && isKey)
                     queryBuilder.Append("&");
 
-                queryBuilder.AppendFormat(isKey ? "{0}=" : "{1}", keyOrValue);
+                queryBuilder.AppendFormat(isKey ? "{0}=" : "{0}", keyOrValue);
 
                 isKey = !isKey;
+                index++;
             }
 
             var query = queryBuilder.ToString();

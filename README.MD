@@ -73,6 +73,22 @@ Trade[] trades = bitsoClient.PublicAPI.GetTrades(new OrdersRequest
 
 TODO
 
+## Exception Handling
+
+Wrap your code around a try-catch block and catch the BitsoException type. The BitsoException class contains an ErrorCode property with the error code returned from the Bitso API. For a list of error codes please go to: https://bitso.com/developers#error-codes.
+
+```C# 
+try
+{
+	var response = bitsoClient.PrivateAPI.XXXXX();
+}
+catch(BitsoException ex)
+{
+	//ex.ErrorCode
+	//ex.Message
+}
+```
+
 
 
 
